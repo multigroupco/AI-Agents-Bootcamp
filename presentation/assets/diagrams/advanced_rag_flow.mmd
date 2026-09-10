@@ -1,0 +1,58 @@
+flowchart LR
+    %% Styling & Classes
+    classDef ingestNode fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#f8fafc;
+    classDef vectorNode fill:#0f172a,stroke:#8b5cf6,stroke-width:2px,color:#f8fafc;
+    classDef queryNode fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#f8fafc;
+    classDef processNode fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#f8fafc;
+    classDef llmNode fill:#1e1b4b,stroke:#ec4899,stroke-width:2px,color:#f8fafc;
+    classDef guardNode fill:#064e3b,stroke:#14b8a6,stroke-width:2px,color:#f8fafc;
+
+    %% Data Ingestion & Indexing Pipeline
+    subgraph INGESTION["1. Veri Hazırlığı ve İndeksleme (Offline Ingestion)"]
+        RawDocs["📄 Ham Dokümanlar\n(PDF, Markdown, Web, DB)"]:::ingestNode
+        Chunker["✂️ Chunking & Parsing\n(Semantic / Recursive)"]:::ingestNode
+        EmbedModel["🧮 Embedding Modeli\n(Dense Vector Representation)"]:::ingestNode
+        
+        subgraph STORAGE["Veri Depolama"]
+            VectorDB[("🔮 Vektör Veritabanı\n(Pinecone, Qdrant, Chroma)\n[HNSW / Cosine Index]")]:::vectorNode
+            SparseDB[("📚 BM25 / Keyword Index\n(Sparse Retrieval)")]:::vectorNode
+        end
+
+        RawDocs --> Chunker
+        Chunker -->|Metin Parçaları| EmbedModel
+        Chunker -->|Token Listesi| SparseDB
+        EmbedModel -->|Dense Vektörler| VectorDB
+    end
+
+    %% Query & Retrieval Runtime Pipeline
+    subgraph RUNTIME["2. Çalışma Zamanı & Üretim (Online Retrieval & Generation)"]
+        UserQuery(["❓ Kullanıcı Sorgusu\n(User Query)"]):::queryNode
+        QueryTransform["🔄 Query Transformation\n(HyDE, Re-writing, Sub-queries)"]:::queryNode
+        
+        subgraph RETRIEVAL["Hibrit Getirme (Hybrid Search)"]
+            DenseSearch["Dense Search (Semantik Benzerlik)"]:::processNode
+            SparseSearch["Sparse Search (BM25 Anahtar Kelime)"]:::processNode
+            RRF["⚖️ Reciprocal Rank Fusion (RRF)"]:::processNode
+        end
+
+        Reranker["🎯 Cross-Encoder Reranker\n(Top-K Yeniden Sıralama & Filtreleme)"]:::processNode
+        PromptBuilder["📝 Bağlam & Prompt Montajı\n(Compressed Context + System Prompt)"]:::processNode
+        LLM["🧠 LLM (Generator)\n(Sentezleme & Yanıt Üretimi)"]:::llmNode
+        Guardrails["🛡️ Guardrails & Hallucination Check\n(Doğruluk ve Güvenlik Denetimi)"]:::guardNode
+        FinalOutput(["✅ Doğrulanmış Yanıt & Kaynakçalar"]):::guardNode
+
+        UserQuery --> QueryTransform
+        QueryTransform -->|Dönüştürülmüş Sorgu| DenseSearch
+        QueryTransform -->|Anahtar Kelimeler| SparseSearch
+        
+        DenseSearch -.->|Vektör Mesafesi| VectorDB
+        SparseSearch -.->|Kelime Eşleşmesi| SparseDB
+        
+        DenseSearch --> RRF
+        SparseSearch --> RRF
+        RRF -->|Ham Adaylar (Top-N)| Reranker
+        Reranker -->|En İlgili Parçalar (Top-K)| PromptBuilder
+        PromptBuilder --> LLM
+        LLM --> Guardrails
+        Guardrails --> FinalOutput
+    end
