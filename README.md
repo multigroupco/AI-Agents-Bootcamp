@@ -15,7 +15,9 @@ LLM'lerin ötesine geçerek, bu modelleri araçlar ve bilgi kaynaklarıyla bir a
 Bu bootcamp, AI Agents alanına ilgi duyan ve kendini bu alanda geliştirmek isteyen herkes için tasarlandı!
 
 🔹 AI Agents ve LLM dünyasına yeni giriyorsan, temel kavramları öğrenerek adım adım ilerleyebilirsin.
+
 🔹 Yazılım geliştiriciysen, LLM'leri araçlarla birleştirerek agent tabanlı uygulamalar geliştirebilirsin.
+
 🔹 Yapay zekâ alanında kendini geliştirmek ve uygulamalı projeler üretmek istiyorsan, öğrendiklerini pratiğe dökebilirsin.
 
 ## 📚 İçerik
