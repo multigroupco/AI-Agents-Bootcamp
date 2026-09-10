@@ -1,0 +1,52 @@
+flowchart TB
+    %% Styling & Classes
+    classDef userNode fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef supervisorNode fill:#311042,stroke:#c084fc,stroke-width:2px,color:#f8fafc;
+    classDef stateNode fill:#1e1b4b,stroke:#6366f1,stroke-width:2px,stroke-dasharray: 4 4,color:#f8fafc;
+    classDef workerNode fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef toolNode fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#f8fafc;
+    classDef criticNode fill:#451a03,stroke:#fb923c,stroke-width:2px,color:#f8fafc;
+
+    %% User Layer
+    Client(["👤 Kullanıcı / İstemci (User Task)"]):::userNode
+
+    %% Supervisor & State Management
+    subgraph ORCHESTRATION["Merkezi Yönetim ve Durum Katmanı (Orchestrator & State Graph)"]
+        Supervisor["👑 Orkestratör / Supervisor Agent\n(LangGraph / AutoGen Core)\n- Görev Ayrıştırma & Delege Etme\n- Agent Seçimi & Yönlendirme\n- Çıktı Sentezi"]:::supervisorNode
+        
+        SharedState[("🗄️ Paylaşılan Durum & Hafıza (Shared State / Blackboard)\n- Global Context & Mesaj Geçmişi\n- Ara Çıktılar & Durum Bayrakları\n- Checkpointing & Transaction History")]:::stateNode
+    end
+
+    %% Worker Agents Layer
+    subgraph WORKERS["Uzmanlaşmış İşçi Ajanlar (Specialized Worker Agents)"]
+        subgraph AGENT_A["Worker 1: Araştırmacı / RAG Agent"]
+            Worker1["🔎 Researcher Agent\n- Literatür & Web Taraması\n- Vektör DB Sorgulama"]:::workerNode
+            Tool1["🛠️ Search & Ingestion API"]:::toolNode
+            Worker1 <--> Tool1
+        end
+
+        subgraph AGENT_B["Worker 2: Kodlayıcı / Analist Agent"]
+            Worker2["💻 Coder & Analyst Agent\n- Veri Analizi & Kod Yazımı\n- SQL & Script Üretimi"]:::workerNode
+            Tool2["🛠️ Python Sandbox / SQL Engine"]:::toolNode
+            Worker2 <--> Tool2
+        end
+
+        subgraph AGENT_C["Worker 3: Hakem / Denetçi Agent"]
+            Worker3["🧐 Critic / Reviewer Agent\n- Çıktı Kalite & Güvenlik Kontrolü\n- Hallucination & Hata Tespiti"]:::criticNode
+        end
+    end
+
+    %% Flow Connections
+    Client -->|1. Karmaşık Görevi Başlat| Supervisor
+    Supervisor <-->|Durum Oku / Yaz| SharedState
+
+    Supervisor -->|2a. Alt Görev: Veri Topla| Worker1
+    Supervisor -->|2b. Alt Görev: Analiz Et & Çözüm Üret| Worker2
+    
+    Worker1 -->|Veri & Bağlam Yaz| SharedState
+    Worker2 -->|Kod & Sonuç Yaz| SharedState
+
+    SharedState -->|3. Doğrulama İsteği| Worker3
+    Worker3 -->|Revizyon Bildirimi / Onay| Supervisor
+
+    Supervisor -->|4. Bütünleşik ve Doğrulanmış Çözüm| Client
