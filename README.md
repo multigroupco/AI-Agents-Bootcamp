@@ -1,4 +1,4 @@
-# 🤖 AI Agents Bootcamp
+# 🤖 [AI Agents Bootcamp](https://gathin.com/events/ai-agents-bootcamp-650)
 
 **AI Agents Bootcamp** eğitimine hoş geldin! 🚀
 
@@ -14,12 +14,6 @@ LLM'lerin ötesine geçerek, bu modelleri araçlar ve bilgi kaynaklarıyla bir a
 
 Bu bootcamp, AI Agents alanına ilgi duyan ve kendini bu alanda geliştirmek isteyen herkes için tasarlandı!
 
-🔹 AI Agents ve LLM dünyasına yeni giriyorsan, temel kavramları öğrenerek adım adım ilerleyebilirsin.
-
-🔹 Yazılım geliştiriciysen, LLM'leri araçlarla birleştirerek agent tabanlı uygulamalar geliştirebilirsin.
-
-🔹 Yapay zekâ alanında kendini geliştirmek ve uygulamalı projeler üretmek istiyorsan, öğrendiklerini pratiğe dökebilirsin.
-
 ## 📚 İçerik
 
 * LLM Temelleri
@@ -31,3 +25,10 @@ Bu bootcamp, AI Agents alanına ilgi duyan ve kendini bu alanda geliştirmek ist
 * Uygulamalı Proje
 
 Ders slaytları, kaynaklar ve ilgili materyaller bu repository üzerinden paylaşılacaktır.
+
+## ▶️ Oturumlar
+
+- [Kick-Off AI Agent Bootcamp](https://www.youtube.com/live/WeWd8P5KVyg?si=SavT2a3CxPnRvDyC)
+- [Agent'a Giriş ve LLM Temelleri - Ferhat İşyapan](https://www.youtube.com/live/7UbUxH6qcg8?si=ahgujmK4EC3qiXcX)
+
+
