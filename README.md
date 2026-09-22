@@ -24,7 +24,7 @@ Bu bootcamp, AI Agents alanına ilgi duyan ve kendini bu alanda geliştirmek ist
 * Multi-Agent Systems
 * Uygulamalı Proje
 
-Ders slaytları, kaynaklar ve ilgili materyaller bu repository üzerinden paylaşılacaktır.
+Ders slaytları, teknik mimari diyagramları ve görsel materyallere [presentation/](presentation/) dizini üzerinden erişebilirsiniz.
 
 ## ▶️ Oturumlar
 

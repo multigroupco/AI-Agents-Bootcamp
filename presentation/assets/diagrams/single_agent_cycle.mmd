@@ -1,0 +1,46 @@
+flowchart TD
+    %% Styling & Classes
+    classDef userNode fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef thoughtNode fill:#0f172a,stroke:#a855f7,stroke-width:2px,color:#f8fafc;
+    classDef actionNode fill:#0f172a,stroke:#f59e0b,stroke-width:2px,color:#f8fafc;
+    classDef toolNode fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#f8fafc;
+    classDef obsNode fill:#1e293b,stroke:#06b6d4,stroke-width:2px,color:#f8fafc;
+    classDef memoryNode fill:#334155,stroke:#ec4899,stroke-width:2px,stroke-dasharray: 5 5,color:#f8fafc;
+    classDef decisionNode fill:#1e1b4b,stroke:#6366f1,stroke-width:2px,color:#f8fafc;
+    classDef finalNode fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#f8fafc;
+
+    %% Workflow
+    subgraph S_USER["Kullanıcı Etkileşimi"]
+        User(["👤 Kullanıcı İstemi / Görev (User Query)"]):::userNode
+        FinalAnswer(["🎯 Nihai Yanıt & Çıktı (Final Response)"]):::finalNode
+    end
+
+    subgraph S_AGENT["AI Agent Çekirdeği (ReAct / Reasoning Core)"]
+        Thought["🧠 Akıl Yürütme & Planlama (Thought / Reasoning)\n- Görevi analiz et\n- Belleği sorgula\n- Sıradaki aksiyonu belirle"]:::thoughtNode
+        Decision{"Gerekli Bilgi / Durum\nYeterli mi?"}:::decisionNode
+        Action["⚡ Aksiyon Seçimi (Action / Function Call)\n- Fonksiyon: search_docs / execute_sql\n- JSON Parametreleri Oluştur"]:::actionNode
+    end
+
+    subgraph S_MEMORY["Bellek & Durum Katmanı (Context & Memory)"]
+        Memory[("🗄️ Bellek (Memory Store)\n- Scratchpad (Kısa Dönem)\n- Semantik Hafıza (Vektör/Geçmiş)\n- Sistem Talimatları")博士:::memoryNode
+    end
+
+    subgraph S_ENV["Araç ve Çevre Katmanı (Environment & Execution)"]
+        ToolRegistry["🛠️ Tool Registry / Entegrasyonlar\n- Web Search API\n- Python REPL / Sandbox\n- Veritabanı (SQL/Vector)\n- Harici API Servisleri"]:::toolNode
+        Observation["👁️ Gözlem (Observation)\n- Araç Çıktısı (Raw Output)\n- HTTP / SQL Hata Kodları\n- Çevre Geri Bildirimi"]:::obsNode
+    end
+
+    %% Bağlantılar
+    User -->|İstem Gönderimi| Thought
+    Memory <-->|Bağlam Oku / Güncelle| Thought
+    Thought --> Decision
+
+    Decision -->|Eksik Veri / Araç Çağrısı Gerekli| Action
+    Decision -->|Yeterli Bilgiye Ulaşıldı| FinalAnswer
+
+    Action -->|Structured Payload (JSON)| ToolRegistry
+    ToolRegistry -->|İcra Sonucu (Execution)| Observation
+    Observation -->|Gözlem Scratchpad'e Eklenir| Memory
+    Observation -->|Döngüye Geri Besleme| Thought
+
+    FinalAnswer -->|Cevap Teslimi| User
