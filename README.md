@@ -26,9 +26,6 @@ Bu bootcamp, AI Agents alanına ilgi duyan ve kendini bu alanda geliştirmek ist
 
 Ders slaytları, teknik mimari diyagramları ve görsel materyallere [Resources/Shared/](Resources/Shared/) dizini üzerinden erişebilirsiniz.
 
-## ▶️ Oturumlar
-
-- [Kick-Off AI Agent Bootcamp](https://www.youtube.com/live/WeWd8P5KVyg?si=SavT2a3CxPnRvDyC)
-- [Agent'a Giriş ve LLM Temelleri - Ferhat İşyapan](https://www.youtube.com/live/7UbUxH6qcg8?si=ahgujmK4EC3qiXcX)
+## ▶️ [Oturumlar](https://youtube.com/playlist?list=PLUkHeRXZSx7I&si=jRXwenax2f54760Y)
 
 
