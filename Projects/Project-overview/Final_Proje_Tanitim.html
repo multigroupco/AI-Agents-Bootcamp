@@ -1,0 +1,598 @@
+<title>Final Proje Tanıtımı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: 16:9 sahne (1280×720) ekrana ölçeklenir; dar ekranda slaytlar alt alta akar. Tek, bilinçli koyu tema: agent trace terminali. */
+:root{
+  color-scheme: dark;
+  --ink:#121120;      /* zemin */
+  --panel:#1B1A2C;    /* kart */
+  --line:#2D2A45;     /* çizgi */
+  --fg:#EEEDF6;       /* metin */
+  --muted:#A3A0BF;    /* ikincil metin */
+  --gen:#9D97FF;      /* genel rehber (indigo) */
+  --fin:#3CCBB6;      /* FinSight (teal) */
+  --shop:#F59152;     /* ShopOps (turuncu) */
+  --trial:#5BB8EC;    /* TrialMatch (mavi) */
+  --ok:#62D395;       /* Temel */
+  --warn:#F2C14E;     /* uyarı */
+  --f-display:"Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+html,body{height:100%}
+body{background:var(--ink);color:var(--fg);font-family:var(--f-body);margin:0;overflow:hidden}
+*{box-sizing:border-box}
+#viewport{position:fixed;inset:0;display:grid;place-items:center}
+#stage{width:1280px;height:720px;position:relative;transform-origin:center center;flex:none}
+.slide{position:absolute;inset:0;padding:56px 72px 64px;display:flex;flex-direction:column;gap:24px;background:var(--ink);opacity:0;visibility:hidden;transition:opacity .35s ease}
+.slide.on{opacity:1;visibility:visible}
+@media (prefers-reduced-motion: reduce){.slide{transition:none}.caret{animation:none!important}}
+
+/* tipografi */
+.eyebrow{font-family:var(--f-mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;gap:12px;align-items:center}
+.eyebrow b{color:var(--acc,var(--gen));font-weight:600}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:76px;font-weight:800;line-height:1.02}
+h2{font-size:46px;font-weight:700;line-height:1.08}
+h3{font-size:22px;font-weight:700;line-height:1.2}
+p{margin:0}
+.lead{font-size:22px;line-height:1.45;color:var(--muted);max-width:60ch}
+.small{font-size:17px;color:var(--muted);line-height:1.45}
+.mono{font-family:var(--f-mono)}
+.acc{color:var(--acc,var(--gen))}
+
+/* yardımcı yerleşim */
+.row{display:flex;gap:24px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.fill{flex:1;min-height:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 24px;min-width:0}
+.tag{display:inline-block;font-family:var(--f-mono);font-size:14px;padding:5px 10px;border-radius:6px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.tag.a{border-color:var(--acc);color:var(--acc)}
+.foot{position:absolute;left:72px;right:72px;bottom:24px;display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:12.5px;color:var(--muted)}
+
+/* kapak: trace */
+.trace{font-family:var(--f-mono);font-size:19px;line-height:1.9;border-left:2px solid var(--line);padding-left:22px}
+.trace .k{display:inline-block;width:170px;color:var(--muted)}
+.trace .t{color:var(--gen)}.trace .a{color:var(--shop)}.trace .o{color:var(--trial)}.trace .f{color:var(--ok)}
+.caret{display:inline-block;width:10px;height:19px;background:var(--ok);vertical-align:-3px;margin-left:4px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* fiiller şeridi */
+.verbs{display:flex;gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.verbs div{flex:1;padding:26px 22px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:10px;min-width:0}
+.verbs div:last-child{border-right:0}
+.verbs .n{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.verbs .v{font-family:var(--f-display);font-size:32px;font-weight:700}
+.verbs .d{font-size:18.5px;color:var(--muted);line-height:1.45}
+
+/* proje kartları */
+.pcard{border-top:4px solid var(--acc);display:flex;flex-direction:column;gap:14px}
+.pcard .sec{font-family:var(--f-mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc)}
+.pcard h3{font-size:36px}
+.kv{display:grid;grid-template-columns:100px 1fr;gap:12px 14px;font-size:18.5px;line-height:1.4}
+.kv dt{color:var(--muted);font-family:var(--f-mono);font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;padding-top:3px}
+.kv dd{margin:0}
+
+/* proje detay slaytı */
+.pd{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:36px;flex:1;min-height:0}
+.query{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:10px;padding:18px 20px;font-size:21px;line-height:1.45}
+.query .who{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:6px}
+.flow{display:flex;flex-direction:column;gap:10px}
+.node{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--panel);display:flex;flex-direction:column;gap:4px;font-size:19px}
+.node b{font-family:var(--f-display);font-weight:700}
+.node span{font-family:var(--f-mono);font-size:14px;color:var(--muted)}
+.node.hub{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 14%,var(--panel))}
+.branch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;position:relative;padding-left:18px;border-left:2px dashed color-mix(in srgb,var(--acc) 55%,transparent);margin-left:14px}
+.node.crit{border-style:dashed}
+.lvls{display:flex;flex-direction:column;gap:14px}
+.lvl{display:grid;grid-template-columns:80px 1fr;gap:14px;align-items:baseline;font-size:18.5px;line-height:1.4}
+.lvl .b{font-family:var(--f-mono);font-size:12px;font-weight:600;text-align:center;border-radius:6px;padding:4px 0}
+.b.t{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.b.h{background:color-mix(in srgb,var(--gen) 20%,transparent);color:var(--gen)}
+.b.i{background:color-mix(in srgb,#C58BFF 20%,transparent);color:#D3A8FF}
+.signals{display:flex;flex-wrap:wrap;gap:8px}
+
+/* karşılaştırma tablosu */
+table{border-collapse:collapse;width:100%;font-size:19px}
+th,td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.4}
+th{font-family:var(--f-mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:400}
+td.l{font-family:var(--f-mono);font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;width:170px}
+th.fin{color:var(--fin)}th.shop{color:var(--shop)}th.trial{color:var(--trial)}
+.hours{font-family:var(--f-display);font-size:28px;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* çekirdek ızgarası */
+.core{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.ci{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.ci .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ci .num{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.ci h3{font-size:22px}
+.ci p{font-size:16.5px;color:var(--muted);line-height:1.4}
+.pill{font-family:var(--f-mono);font-size:11.5px;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.pill.req{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.pill.lite{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.pill.later{background:color-mix(in srgb,var(--gen) 18%,transparent);color:var(--gen)}
+.legend{display:flex;gap:18px;align-items:center;font-size:14px;color:var(--muted);flex-wrap:wrap}
+
+/* takvim */
+.tl{position:relative;height:330px;margin-top:8px}
+.tl .axis{position:absolute;left:0;right:0;top:150px;height:2px;background:var(--line)}
+.tl .band{position:absolute;top:90px;height:48px;border-radius:8px;padding:6px 10px;font-size:14px;line-height:1.25;overflow:hidden;border:1px solid}
+.tl .band b{font-family:var(--f-display);display:block;font-size:16px}
+.tl .lesson{position:absolute;top:144px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px}
+.tl .lesson i{width:14px;height:14px;border-radius:50%;background:var(--ink);border:2px solid var(--fg)}
+.tl .lesson span{font-family:var(--f-mono);font-size:12.5px;color:var(--muted);text-align:center;white-space:nowrap;line-height:1.35}
+.tl .lesson span b{color:var(--fg);font-weight:600}
+.tl .lesson.low span{margin-top:62px}
+.tl .lesson.low::before{content:"";position:absolute;top:16px;left:50%;width:1px;height:58px;background:var(--line)}
+.tl .end{position:absolute;top:118px;right:0;text-align:right}
+.tl .end i{display:block;width:4px;height:64px;background:var(--shop);margin:0 0 6px auto;border-radius:2px}
+.tl .end span{font-family:var(--f-mono);font-size:13px;color:var(--shop);white-space:nowrap}
+.tl .start{position:absolute;top:118px;left:0;text-align:left}
+.tl .start i{display:block;width:4px;height:64px;background:var(--ok);margin:0 0 6px;border-radius:2px}
+.tl .start span{font-family:var(--f-mono);font-size:13px;color:var(--ok);white-space:nowrap}
+.tl .dates{position:absolute;left:0;right:0;top:60px;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.tl .dates span{position:absolute;transform:translateX(-50%)}
+
+/* rubrik */
+.bars{display:flex;flex-direction:column;gap:11px}
+.bar{display:grid;grid-template-columns:360px 1fr 56px;gap:16px;align-items:center;font-size:18.5px}
+.bar .track{height:22px;border-radius:5px;background:color-mix(in srgb,var(--fg) 6%,transparent);position:relative;overflow:hidden}
+.bar .fillb{position:absolute;left:0;top:0;bottom:0;background:var(--gen);border-radius:5px}
+.bar .w{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;font-size:17px}
+.bar.bonus .fillb{background:repeating-linear-gradient(135deg,var(--warn) 0 6px,color-mix(in srgb,var(--warn) 45%,transparent) 6px 12px)}
+.bar.bonus .w{color:var(--warn)}
+.score{display:flex;gap:0;height:46px;border-radius:10px;overflow:hidden;border:1px solid var(--line);font-family:var(--f-mono);font-size:13px}
+.score div{display:flex;align-items:center;padding:0 14px;white-space:nowrap}
+
+/* checklist */
+.todo{display:flex;flex-direction:column;gap:14px}
+.todo div{display:grid;grid-template-columns:30px 1fr;gap:14px;align-items:start;font-size:22px;line-height:1.4}
+.todo i{width:24px;height:24px;border:2px solid var(--muted);border-radius:6px;margin-top:2px}
+.todo small{display:block;font-size:17px;color:var(--muted);margin-top:2px}
+.alert{border:1px solid color-mix(in srgb,var(--warn) 60%,transparent);background:color-mix(in srgb,var(--warn) 9%,var(--panel));border-radius:14px;padding:22px 24px;display:flex;flex-direction:column;gap:10px}
+.alert h3{color:var(--warn)}
+.big{font-family:var(--f-display);font-weight:800;font-size:64px;line-height:1;font-variant-numeric:tabular-nums}
+
+/* pitch */
+.pitch{display:flex;flex-direction:column;gap:0;border-left:2px solid var(--line);align-self:start}
+.pitch div{display:grid;grid-template-columns:130px 1fr;gap:16px;padding:16px 0 16px 24px;font-size:21px;line-height:1.4;position:relative}
+.pitch div::before{content:"";position:absolute;left:-7px;top:19px;width:12px;height:12px;border-radius:50%;background:var(--ink);border:2px solid var(--gen)}
+.pitch .s{font-family:var(--f-mono);font-size:13px;color:var(--gen);padding-top:4px}
+
+.resource-link{display:block;text-decoration:none;color:var(--fg);border-top:4px solid var(--acc);transition:border-color .15s ease,background .15s ease}
+.resource-link:hover,.resource-link:focus-visible{background:color-mix(in srgb,var(--acc) 12%,var(--panel));outline:2px solid var(--acc);outline-offset:2px}
+.text-link{color:var(--gen);text-decoration:underline;text-underline-offset:3px}
+.text-link:focus-visible{outline:2px solid var(--gen);outline-offset:3px}
+
+/* kontroller */
+#ctrl{position:fixed;right:max(16px, env(safe-area-inset-right, 0px));top:calc(12px + env(safe-area-inset-top, 0px));display:flex;gap:8px;align-items:center;z-index:5;opacity:.55;transition:opacity .2s}
+#ctrl:hover,#ctrl:focus-within{opacity:1}
+#ctrl button{font-family:var(--f-mono);font-size:13px;background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}
+#ctrl button:hover{border-color:var(--gen)}
+#ctrl button:focus-visible{outline:2px solid var(--gen);outline-offset:2px}
+#count{font-family:var(--f-mono);font-size:13px;color:var(--muted);min-width:56px;text-align:center;font-variant-numeric:tabular-nums}
+#prog{position:fixed;left:0;top:env(safe-area-inset-top, 0px);height:3px;background:var(--gen);transition:width .3s ease;z-index:5}
+
+/* dar ekran: alt alta akış */
+html.flow body{overflow:auto}
+html.flow #viewport{position:static;display:block;padding-inline:16px;padding-block:16px 80px}
+html.flow #stage{width:auto;height:auto;transform:none!important;display:flex;flex-direction:column;gap:20px}
+html.flow .slide{position:relative;opacity:1;visibility:visible;padding:28px 20px 28px;border:1px solid var(--line);border-radius:16px;min-width:0;overflow-x:auto}
+html.flow .foot{position:static;flex-wrap:wrap;gap:8px;margin-top:8px}
+html.flow .eyebrow{flex-wrap:wrap}
+html.flow .score{flex-wrap:wrap;height:auto}
+html.flow .score div{padding:10px}
+html.flow .kv{grid-template-columns:minmax(0,1fr)}
+html.flow .lvl{grid-template-columns:70px minmax(0,1fr)}
+html.flow .trace .k{display:block;width:auto}
+html.flow .pitch div{grid-template-columns:minmax(0,1fr)}
+html.flow h1{font-size:44px}html.flow h2{font-size:30px}
+html.flow .lead{font-size:18px}
+html.flow .grid3,html.flow .grid2,html.flow .pd,html.flow .core{grid-template-columns:minmax(0,1fr)}
+html.flow .verbs,html.flow .row{flex-direction:column}
+html.flow .verbs div{border-right:0;border-bottom:1px solid var(--line)}
+html.flow .branch{grid-template-columns:minmax(0,1fr)}
+html.flow .bar{grid-template-columns:minmax(0,1fr) 44px}
+html.flow .bar .track{grid-column:1 / -1;grid-row:2}
+html.flow .tablewrap,html.flow .tlwrap{overflow-x:auto}
+html.flow .tl{min-width:900px}
+html.flow table{min-width:640px}
+html.flow #ctrl,html.flow #prog{display:none}
+html.flow .trace .k{width:120px}
+html.flow .trace{font-size:14px}
+</style>
+
+<div id="prog" aria-hidden="true"></div>
+<div id="viewport">
+<div id="stage">
+
+<!-- 1 · Kapak -->
+<section class="slide" data-title="Kapak">
+  <div class="eyebrow"><b>AI Agents Bootcamp</b><span>Proje Tanıtım Oturumu · 2 Ekim 2026</span></div>
+  <div class="fill" style="display:flex;flex-direction:column;justify-content:center;gap:40px">
+    <h1>Final Proje:<br>kendi agent sistemini kur, ölç, yayına al.</h1>
+    <div class="trace" aria-label="Agent döngüsü örneği">
+      <div><span class="k">Thought</span><span class="t">Bir sektör seç, gerçek bir problemi bul.</span></div>
+      <div><span class="k">Action</span><span class="a">tool'lar · bilgi katmanı · multi-agent · MCP</span></div>
+      <div><span class="k">Observation</span><span class="o">golden set · trace · güvenlik testleri</span></div>
+      <div><span class="k">Final Answer</span><span class="f">mülakatta açıp gösterebileceğin bir proje</span><span class="caret" aria-hidden="true"></span></div>
+    </div>
+  </div>
+  <div class="foot"><span>Türkiye Veri Topluluğu × MultiGroup</span><span>3 proje · 3 sektör · teslim 6 Kasım 2026</span></div>
+</section>
+
+<!-- 2 · Ne bekliyoruz -->
+<section class="slide" data-title="Ne bekliyoruz">
+  <div class="eyebrow"><b>Beklenti</b><span>Bir demo değil, bir mühendislik işi</span></div>
+  <h2>Eğitim sonunda senden beş şey bekliyoruz.</h2>
+  <div class="verbs fill">
+    <div><span class="n">1</span><span class="v">Geliştir</span><span class="d">Gerçek bir sektör probleminde, kendi tool'larıyla çalışan bir agent sistemi.</span></div>
+    <div><span class="n">2</span><span class="v">Ölç</span><span class="d">En az 25 örneklik golden set. Baseline ile final sistemi aynı sette karşılaştır.</span></div>
+    <div><span class="n">3</span><span class="v">Güvenli kıl</span><span class="d">Prompt-injection testleri, insan onayı, alan sınırları. Kodla uygula, prompt'a güvenme.</span></div>
+    <div><span class="n">4</span><span class="v">Göster</span><span class="d">Temel: CLI/notebook ve ekran görüntüsü. Hedef: arayüz ve herkese açık demo.</span></div>
+    <div><span class="n">5</span><span class="v">Anlat</span><span class="d">TVT ya da Medium'da teknik bir yazı (her seviyede zorunlu) ve README'de 10 soruya yazılı cevap.</span></div>
+  </div>
+  <div class="foot"><span>Genel Rehber §2–§3</span><span></span></div>
+</section>
+
+<!-- 3 · LLM, workflow, agent -->
+<section class="slide" data-title="LLM, workflow, agent">
+  <div class="eyebrow"><b>Temel kavramlar</b><span>Aynı iş, üç farklı yol</span></div>
+  <h2>"Siparişim geç geldi, paramı geri istiyorum."</h2>
+  <div class="grid3 fill">
+    <article class="card pcard" style="--acc:var(--gen)">
+      <span class="sec">LLM</span><h3>Konuşur</h3>
+      <div class="query" style="font-size:17px"><span class="who">Cevap</span>"Siparişiniz muhtemelen yoldadır, kargo firmanızı kontrol edin."</div>
+      <p class="small">Siparişi hiç görmedi, tahmin etti. Kulağa doğru gelir ama uydurma olabilir.</p>
+      <p class="small" style="margin-top:auto"><span class="acc">Benzetme:</span> dosyanızı göremeyen bilgili bir uzman.</p>
+    </article>
+    <article class="card pcard" style="--acc:var(--warn)">
+      <span class="sec">Workflow</span><h3>Tarifi izler</h3>
+      <div class="flow" style="gap:6px;font-size:16px"><span>1 · Sipariş numarasını al</span><span>2 · Durumu veritabanından çek</span><span>3 · 14 gün geçti mi bak</span><span>4 · LLM ile cevabı yaz</span></div>
+      <p class="small">Hızlı ve ucuz. Ama "iptal mi etsem, iade mi?" gibi yazılmamış bir yol çıkınca tıkanır.</p>
+      <p class="small" style="margin-top:auto"><span class="acc">Benzetme:</span> yemek tarifi.</p>
+    </article>
+    <article class="card pcard" style="--acc:var(--ok)">
+      <span class="sec">AI agent</span><h3>Kendisi karar verir</h3>
+      <div class="trace" style="font-size:14px;line-height:1.7;padding-left:14px"><div><span class="k" style="width:88px">Düşünce</span><span class="t">durumuna bakmalıyım</span></div><div><span class="k" style="width:88px">Eylem</span><span class="a">siparis_durumu()</span></div><div><span class="k" style="width:88px">Gözlem</span><span class="o">20 gün önce, 13 gün geç</span></div><div><span class="k" style="width:88px">Eylem</span><span class="a">iade_uygun_mu()</span></div><div><span class="k" style="width:88px">Cevap</span><span class="f">80 BRL kargo iadesi, onaylıyor musunuz?</span></div></div>
+      <p class="small" style="margin-top:auto"><span class="acc">Benzetme:</span> yetkili çalışan; kritik işte müdür onayı alır.</p>
+    </article>
+  </div>
+  <p class="lead" style="font-size:20px;color:var(--fg)"><b>LLM</b> konuşur · <b>Workflow</b> önceden yazılan adımları izler · <b>Agent</b> hangi adımı atacağına kendisi karar verir.</p>
+  <div class="foot"><span>Bu örneği birazdan ShopOps demosunda canlı göreceksiniz</span><span></span></div>
+</section>
+
+<!-- 3 · Neden agent -->
+<section class="slide" data-title="Neden agent">
+  <div class="eyebrow"><b>Doğru problem</b><span>Her LLM uygulaması bir agent değildir</span></div>
+  <h2>Bu üç problem neden agent istiyor?</h2>
+  <div class="grid2" style="margin-top:8px">
+    <div class="card"><h3>Adım sayısı belli değil</h3><p class="small" style="margin-top:10px;font-size:18.5px">Soru bazen tek tool çağrısıyla, bazen beş çağrıyla çözülür. Sırayı model, gözlemlere bakarak seçer. <span class="mono">Ders 3</span></p></div>
+    <div class="card"><h3>Dış dünyaya erişim şart</h3><p class="small" style="margin-top:10px;font-size:18.5px">Veritabanı, API ve doküman olmadan doğru cevap yok. <span class="mono">Ders 2, 6, 7</span></p></div>
+    <div class="card"><h3>Uzmanlaşma ölçülebilir fark yaratır</h3><p class="small" style="margin-top:10px;font-size:18.5px">Veri toplayan, yazan ve denetleyen roller kaliteyi artırır. <span class="mono">Ders 8</span></p></div>
+    <div class="card"><h3>Hata pahalı</h3><p class="small" style="margin-top:10px;font-size:18.5px">Ölçüm, izleme ve güvenlik projenin parçası, süsü değil. <span class="mono">Ders 11, 12</span></p></div>
+  </div>
+  <p class="lead" style="color:var(--fg)">README'nde cevaplayacağın ilk soru: <span class="acc">"Bu problem neden tek bir LLM çağrısıyla yeterince iyi çözülemiyor?"</span> Cevabı kendi baseline ölçümünle ver.</p>
+  <div class="foot"><span>Genel Rehber §2</span><span></span></div>
+</section>
+
+<!-- 4 · Üç proje -->
+<section class="slide" data-title="Üç proje">
+  <div class="eyebrow"><b>Üç proje</b><span>Birini seç, eğitim boyunca büyüt</span></div>
+  <h2>Üç sektör, aynı ortak çekirdek, aynı rubrik.</h2>
+  <div class="grid3 fill">
+    <article class="card pcard" style="--acc:var(--fin)">
+      <span class="sec">Finans</span><h3>FinSight</h3>
+      <dl class="kv"><dt>Problem</dt><dd>Analist bir şirket için ilk bakış notunu 1–2 günde hazırlıyor.</dd><dt>Çıktı</dt><dd>Her sayısı kaynaklı araştırma notu</dd><dt>Veri</dt><dd>SEC EDGAR: XBRL rakamları + 10-K metinleri</dd></dl>
+      <div class="signals" style="margin-top:auto"><span class="tag a">Agentic RAG</span><span class="tag a">Critic</span><span class="tag">Ders 7·8·9·11</span></div>
+    </article>
+    <article class="card pcard" style="--acc:var(--shop)">
+      <span class="sec">E-ticaret</span><h3>ShopOps</h3>
+      <dl class="kv"><dt>Problem</dt><dd>Destek aynı soruları yanıtlıyor; yönetici bir metrik için günlerce bekliyor.</dd><dt>Çıktı</dt><dd>İade işlemleri + doğal dille operasyon metrikleri</dd><dt>Veri</dt><dd>Olist: 99.441 gerçek sipariş, 9 tablo</dd></dl>
+      <div class="signals" style="margin-top:auto"><span class="tag a">MCP</span><span class="tag a">Data Agent</span><span class="tag a">HITL</span><span class="tag">Ders 5·6·9·12</span></div>
+    </article>
+    <article class="card pcard" style="--acc:var(--trial)">
+      <span class="sec">Sağlık</span><h3>TrialMatch</h3>
+      <dl class="kv"><dt>Problem</dt><dd>Hekim, hastasına uygun açık klinik çalışmayı saatlerce arıyor.</dd><dt>Çıktı</dt><dd>Kriter kriter gerekçeli çalışma listesi</dd><dt>Veri</dt><dd>ClinicalTrials.gov API + sentetik vakalar + TREC</dd></dl>
+      <div class="signals" style="margin-top:auto"><span class="tag a">Yapısal çıkarım</span><span class="tag a">Responsible AI</span><span class="tag">Ders 3·7·11·12</span></div>
+    </article>
+  </div>
+  <div class="foot"><span>Genel Rehber §1</span><span>Üç veri kaynağı da anahtarsız ve ücretsiz</span></div>
+</section>
+
+<!-- 5 · FinSight -->
+<section class="slide" data-title="FinSight" style="--acc:var(--fin)">
+  <div class="eyebrow"><b>P1 · Finans</b><span>FinSight: Halka Açık Şirket Araştırma Ekibi</span></div>
+  <h2>Sayılar LLM'den değil, tool'dan gelir.</h2>
+  <div class="pd">
+    <div class="flow" style="gap:16px">
+      <div class="query"><span class="who">Analist soruyor</span>"Yönetim marj düşüşünü neye bağlıyor, rakamlar bunu destekliyor mu?"</div>
+      <div class="flow">
+        <div class="node hub"><b>Orchestrator</b><span>planlar, dağıtır</span></div>
+        <div class="branch">
+          <div class="node"><b>Data Agent</b><span>XBRL + hesap</span></div>
+          <div class="node"><b>Filing RAG</b><span>10-K bölümleri</span></div>
+          <div class="node"><b>Writer</b><span>kaynaklı not</span></div>
+          <div class="node crit"><b>Critic</b><span>her sayı eşleşiyor mu?</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="flow" style="gap:18px">
+      <div class="signals"><span class="tag a">Agentic RAG</span><span class="tag a">Multi-agent + critic</span><span class="tag a">Sayısal doğruluk</span><span class="tag">Ders 7 · 8 · 9 · 11</span></div>
+      <div class="lvls">
+        <div class="lvl"><span class="b t">Temel</span><span>1 şirket, tek agent, 4 tool, 10-K RAG, her iddiada kaynak</span></div>
+        <div class="lvl"><span class="b h">Hedef</span><span>3–5 şirket karşılaştırması, critic döngüsü, kendi MCP server'ın, deploy</span></div>
+        <div class="lvl"><span class="b i">İleri</span><span>Şirket–rakip bilgi grafiği, TCMB EVDS makro bağlamı, fine-tuned router</span></div>
+      </div>
+      <p class="small"><span class="acc">Tuzak:</span> Apple'ın gelir etiketi 2018 ve 2019'da değişiyor. Tek etikete bakan agent boş yıl görür.</p>
+    </div>
+  </div>
+  <div class="foot"><span><a class="text-link" href="../Demolar/index.html#finance" target="_blank" rel="noopener">Örnek verili demoyu aç</a></span><span>Yatırım tavsiyesi vermez</span></div>
+</section>
+
+<!-- 6 · ShopOps -->
+<section class="slide" data-title="ShopOps" style="--acc:var(--shop)">
+  <div class="eyebrow"><b>P2 · E-ticaret</b><span>ShopOps: Pazaryeri Müşteri Destek &amp; Operasyon Ajanı</span></div>
+  <h2>LLM'i nerede serbest bırakıp nerede kodla kilitlediğin.</h2>
+  <div class="pd">
+    <div class="flow" style="gap:16px">
+      <div class="query"><span class="who">Müşteri yazıyor</span>"Siparişimi iade etmek istiyorum, beden olmadı."</div>
+      <div class="flow">
+        <div class="node hub"><b>Router</b><span>müşteri · operasyon · kapsam dışı</span></div>
+        <div class="branch">
+          <div class="node"><b>Support Agent</b><span>iade, insan onayıyla</span></div>
+          <div class="node"><b>Ops Data Agent</b><span>semantic layer → SQL</span></div>
+          <div class="node"><b>Review Insight</b><span>yorum temaları</span></div>
+          <div class="node crit"><b>Kural motoru</b><span>R0–R13, Python'da</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="flow" style="gap:18px">
+      <div class="signals"><span class="tag a">Tool calling</span><span class="tag a">MCP</span><span class="tag a">Data Agent</span><span class="tag a">Human-in-the-loop</span><span class="tag">Ders 5 · 6 · 9 · 12</span></div>
+      <div class="lvls">
+        <div class="lvl"><span class="b t">Temel</span><span>Support Agent, 4 tool, politika RAG'i, insan onaylı iade, yetki testleri</span></div>
+        <div class="lvl"><span class="b h">Hedef</span><span>Ops Data Agent + metrics.yaml, router, sipariş DB'si MCP server olarak</span></div>
+        <div class="lvl"><span class="b i">İleri</span><span>Yorum içgörü agent'ı, intent sınıflandırıcı fine-tune, TR/PT destek</span></div>
+      </div>
+      <p class="small"><span class="acc">Kural:</span> A müşterisi B'nin siparişini göremez. Bunu prompt değil tool katmanı sağlar ve testi %100 geçmeli.</p>
+    </div>
+  </div>
+  <div class="foot"><span><a class="text-link" href="../Demolar/index.html#shop" target="_blank" rel="noopener">Örnek verili demoyu aç</a></span><span>"Bugün" = 1 Eylül 2018</span></div>
+</section>
+
+<!-- 7 · TrialMatch -->
+<section class="slide" data-title="TrialMatch" style="--acc:var(--trial)">
+  <div class="eyebrow"><b>P3 · Sağlık</b><span>TrialMatch: Klinik Araştırma Eşleştirme Ajanı</span></div>
+  <h2>Bilmediğini "bilinmiyor" diye gösteren agent.</h2>
+  <div class="pd">
+    <div class="flow" style="gap:16px">
+      <div class="query"><span class="who">Sentetik vaka</span>"54 yaş kadın, sol meme invaziv duktal karsinom, evre IIIA, HER2 pozitif. İstanbul."</div>
+      <div class="flow">
+        <div class="node hub"><b>PII Guard → Profil çıkarıcı</b><span>serbest metin → şema</span></div>
+        <div class="branch">
+          <div class="node"><b>Trial Search</b><span>API, recruiting</span></div>
+          <div class="node"><b>Eligibility</b><span>MET · NOT_MET · UNKNOWN</span></div>
+          <div class="node"><b>Report</b><span>hekime sorulacaklar</span></div>
+          <div class="node crit"><b>Safety / Critic</b><span>uydurma NCT yok</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="flow" style="gap:18px">
+      <div class="signals"><span class="tag a">Yapısal çıkarım</span><span class="tag a">Kriter bazlı akıl yürütme</span><span class="tag a">Responsible AI</span><span class="tag">Ders 3 · 7 · 11 · 12</span></div>
+      <div class="lvls">
+        <div class="lvl"><span class="b t">Temel</span><span>PII guard, profil çıkarımı, API araması, alıntılı kriter raporu</span></div>
+        <div class="lvl"><span class="b h">Hedef</span><span>Multi-agent + critic, MCP server, TREC ile eval, deploy</span></div>
+        <div class="lvl"><span class="b i">İleri</span><span>TR↔EN terim köprüsü, mesafeye göre sıralama, kriter sınıflandırıcı fine-tune</span></div>
+      </div>
+      <p class="small"><span class="acc">Sınır:</span> Gerçek hasta verisi kesinlikle yasak (KVKK). Tanı ya da tedavi önermez; son karar hekimindir.</p>
+    </div>
+  </div>
+  <div class="foot"><span><a class="text-link" href="../Demolar/index.html#trial" target="_blank" rel="noopener">Örnek verili demoyu aç</a></span><span>Canlı çalışma sayısı değişir; güncel sonucu API’den doğrula</span></div>
+</section>
+
+<!-- 8 · Hangisi -->
+<section class="slide" data-title="Hangisini seçmeli">
+  <div class="eyebrow"><b>Seçim</b><span>Çalışmak istediğin sektöre yakın olanı seç</span></div>
+  <h2>Hangisi sana göre?</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th></th><th class="fin">FinSight</th><th class="shop">ShopOps</th><th class="trial">TrialMatch</th></tr></thead>
+    <tbody>
+      <tr><td class="l">Kime uygun</td><td>Finans, analitik, RAG'e ilgi duyanlar</td><td>Yazılım, backend, ürün ve operasyon</td><td>Sağlık, NLP, güvenli AI'ya ilgi duyanlar</td></tr>
+      <tr><td class="l">En zor kısım</td><td>Uzun finansal metinler, XBRL etiket tutarsızlıkları</td><td>Yazma aksiyonlarının güvenliği, text-to-SQL doğruluğu</td><td>Belirsizliği dürüstçe göstermek, tıbbi terminoloji</td></tr>
+      <tr><td class="l">Temel efor</td><td><span class="hours">40–50</span> <span class="small">saat</span></td><td><span class="hours">30–40</span> <span class="small">saat</span></td><td><span class="hours">45–55</span> <span class="small">saat</span></td></tr>
+      <tr><td class="l">Haftalık plan</td><td>10–12 saat</td><td>8–10 saat</td><td>10–12 saat</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="small">Seçim denemesi: sohbete bir proje adı ve tek cümlelik gerekçeni yaz. Haftalık zamanını da hesaba kat: Hedef seviye üç projede de haftada 12+ saat ister.</p>
+  <div class="foot"><span>Genel Rehber §1</span><span></span></div>
+</section>
+
+<!-- 9 · Ortak çekirdek -->
+<section class="slide" data-title="Ortak çekirdek">
+  <div class="eyebrow"><b>Ortak çekirdek</b><span>Dokuz madde · üç projede aynı</span></div>
+  <h2>Temel çalışan çekirdeği, Hedef tam sistemi gösterir.</h2>
+  <div class="legend"><span><span class="pill req">Temel'de zorunlu</span></span><span><span class="pill lite">Temel'de hafif hâli</span></span><span><span class="pill later">Hedef'e bırakılabilir</span></span></div>
+  <div class="core fill">
+    <div class="ci"><div class="top"><span class="num">#1</span><span class="pill req">zorunlu</span></div><h3>Özel tool'lar</h3><p>En az 4; tipli şema, anlamlı hata mesajı</p></div>
+    <div class="ci"><div class="top"><span class="num">#2</span><span class="pill req">zorunlu</span></div><h3>Agent döngüsü</h3><p>ReAct, max_steps, tekrar koruması</p></div>
+    <div class="ci"><div class="top"><span class="num">#3</span><span class="pill req">zorunlu</span></div><h3>Bilgi katmanı</h3><p>RAG ve/veya veri; her cevapta kaynak</p></div>
+    <div class="ci"><div class="top"><span class="num">#4</span><span class="pill later">Hedef</span></div><h3>MCP</h3><p>Kendi yazdığın server; agent client olarak kullanır</p></div>
+    <div class="ci"><div class="top"><span class="num">#5</span><span class="pill later">Hedef</span></div><h3>Multi-agent</h3><p>En az 2 uzman + orkestratör</p></div>
+    <div class="ci"><div class="top"><span class="num">#6</span><span class="pill req">zorunlu</span></div><h3>Değerlendirme</h3><p>≥25 örnek golden set, baseline vs final</p></div>
+    <div class="ci"><div class="top"><span class="num">#7</span><span class="pill lite">hafif</span></div><h3>Observability</h3><p>Temel: adım + token logu · Hedef: trace + maliyet</p></div>
+    <div class="ci"><div class="top"><span class="num">#8</span><span class="pill lite">hafif</span></div><h3>Güvenlik</h3><p>Temel: ret + insan onayı · Hedef: ≥5 injection testi</p></div>
+    <div class="ci"><div class="top"><span class="num">#9</span><span class="pill lite">hafif</span></div><h3>Deploy</h3><p>Temel: CLI ya da notebook · Hedef: public demo linki</p></div>
+  </div>
+  <div class="foot"><span>Genel Rehber §3</span><span>Framework serbest: smolagents · LlamaIndex · LangGraph · Google ADK</span></div>
+</section>
+
+<!-- 10 · Takvim -->
+<section class="slide" data-title="Takvim">
+  <div class="eyebrow"><b>Takvim</b><span>Proje dersler ilerledikçe büyür</span></div>
+  <h2>Dört kilometre taşı, 35 gün.</h2>
+  <div class="tlwrap">
+  <div class="tl" role="img" aria-label="2 Ekim ile 6 Kasım arası zaman çizelgesi: M0 2–5 Ekim, M1 5–11 Ekim, M2 12–18 Ekim, M3 19 Ekim–6 Kasım; dersler 5, 7, 12, 14 ve 19 Ekim">
+    <div class="dates"><span style="left:0%">2 Eki</span><span style="left:25.71%">11 Eki</span><span style="left:48.57%">19 Eki</span><span style="left:68.57%">26 Eki</span></div>
+    <div class="band" style="left:0%;width:8.57%;border-color:var(--ok);color:var(--ok);background:color-mix(in srgb,var(--ok) 10%,transparent)"><b>M0</b>Başlangıç</div>
+    <div class="band" style="left:8.57%;width:17.14%;border-color:var(--fin);color:var(--fin);background:color-mix(in srgb,var(--fin) 10%,transparent)"><b>M1 · Tek agent</b>baseline ölçüldü</div>
+    <div class="band" style="left:28.57%;width:17.14%;border-color:var(--trial);color:var(--trial);background:color-mix(in srgb,var(--trial) 10%,transparent)"><b>M2 · Sistem</b>multi-agent, MCP, UI</div>
+    <div class="band" style="left:48.57%;width:51.43%;border-color:var(--shop);color:var(--shop);background:color-mix(in srgb,var(--shop) 10%,transparent)"><b>M3 · Üretime hazır</b>eval, güvenlik, deploy, TVT/Medium yazısı</div>
+    <div class="axis"></div>
+    <div class="start"><i></i><span>bugün</span></div>
+    <div class="lesson" style="left:8.57%"><i></i><span><b>Ders 8</b><br>5 Eki<br>Multi-agent</span></div>
+    <div class="lesson low" style="left:14.29%"><i></i><span><b>Ders 9</b><br>7 Eki<br>Agentic RAG</span></div>
+    <div class="lesson" style="left:28.57%"><i></i><span><b>Ders 10</b><br>12 Eki<br>Fine-tuning</span></div>
+    <div class="lesson low" style="left:34.29%"><i></i><span><b>Ders 11</b><br>14 Eki<br>Eval &amp; tracing</span></div>
+    <div class="lesson" style="left:48.57%"><i></i><span><b>Ders 12</b><br>19 Eki<br>Güvenlik</span></div>
+    <div class="end"><i></i><span>Son teslim · 6 Kas 23:59</span></div>
+  </div>
+  </div>
+  <p class="lead" style="font-size:19px">Önce uçtan uca çalışan en basit sürümü yap, sonra büyüt. M1'i 11 Ekim'e kadar bitirmeyenlerin işi son haftada katlanarak büyüyor.</p>
+  <div class="foot"><span>Genel Rehber §4 · çalışma takvimi</span><span>Sonuç tarihi MultiGroup teyidi bekliyor</span></div>
+</section>
+
+<!-- 11 · Rubrik -->
+<section class="slide" data-title="Rubrik">
+  <div class="eyebrow"><b>Değerlendirme</b><span>Üç projede aynı kriterler, aynı ağırlıklar</span></div>
+  <h2>100 puan + 10 bonus.</h2>
+  <div class="bars">
+    <div class="bar"><span>Agent &amp; tool tasarımı</span><span class="track"><span class="fillb" style="width:100%"></span></span><span class="w">20</span></div>
+    <div class="bar"><span>Bilgi katmanı (RAG / veri)</span><span class="track"><span class="fillb" style="width:75%"></span></span><span class="w">15</span></div>
+    <div class="bar"><span>Değerlendirme &amp; observability</span><span class="track"><span class="fillb" style="width:75%"></span></span><span class="w">15</span></div>
+    <div class="bar"><span>Problem tanımı &amp; iş kurgusu</span><span class="track"><span class="fillb" style="width:50%"></span></span><span class="w">10</span></div>
+    <div class="bar"><span>Multi-agent &amp; MCP</span><span class="track"><span class="fillb" style="width:50%"></span></span><span class="w">10</span></div>
+    <div class="bar"><span>Güvenlik &amp; Responsible AI</span><span class="track"><span class="fillb" style="width:50%"></span></span><span class="w">10</span></div>
+    <div class="bar"><span>Deploy &amp; kullanıcı deneyimi</span><span class="track"><span class="fillb" style="width:50%"></span></span><span class="w">10</span></div>
+    <div class="bar"><span>Dokümantasyon, repo &amp; TVT/Medium yazısı</span><span class="track"><span class="fillb" style="width:50%"></span></span><span class="w">10</span></div>
+    <div class="bar bonus"><span>Bonus: İleri seviye, fine-tuning, CI…</span><span class="track"><span class="fillb" style="width:50%"></span></span><span class="w">+10</span></div>
+  </div>
+  <div class="score" role="img" aria-label="Örnek puan bantları: 50–60 Temel, 75–90 Hedef; resmî geçme eşiği duyurulmadı">
+    <div style="width:50%;color:var(--muted)">0 – 50</div>
+    <div style="width:10%;background:color-mix(in srgb,var(--ok) 22%,transparent);color:var(--ok)">Temel ör.</div>
+    <div style="width:15%;color:var(--muted)"></div>
+    <div style="width:15%;background:color-mix(in srgb,var(--gen) 24%,transparent);color:var(--gen)">Hedef</div>
+    <div style="width:10%;color:var(--muted)">100</div>
+  </div>
+  <div class="foot"><span>Genel Rehber §9 · bantlar yaklaşık puan örneği</span><span>Geçme eşiği ve sertifika koşulları: MultiGroup duyurusu</span></div>
+</section>
+
+<!-- 12 · Bu akşam yap -->
+<section class="slide" data-title="Bu akşam yap">
+  <div class="eyebrow"><b>M0</b><span>Bu akşam ve hafta sonu</span></div>
+  <h2>5 Ekim'den önce bitir.</h2>
+  <div class="row fill">
+    <div class="todo" style="flex:1.3;min-width:0">
+      <div><i></i><span>Projeni seç<small>Üç dokümanın kapak sayfalarına ve 7. bölümlerine bak</small></span></div>
+      <div><i></i><span>GitHub reposunu aç<small><span class="mono">.env.example</span> ekle, anahtarı asla commit etme</small></span></div>
+      <div><i></i><span>Ücretsiz LLM anahtarını al<small>Gemini API (AI Studio); yedek Groq ya da yerel Ollama</small></span></div>
+      <div><i></i><span>Veriyi indir, ilk sorguyu çalıştır<small>EDGAR · Olist (<span class="mono">kagglehub</span>) · ClinicalTrials.gov, üçü de anahtarsız</small></span></div>
+      <div><i></i><span>README'ye problem tanımı ve 10 örnek soru yaz<small>TVT editör yolu açıklanırsa 30 Ekim’de gönder; değilse herkese açık Medium yazısı hazırla</small></span></div>
+    </div>
+    <div class="alert" style="flex:1;min-width:0">
+      <h3>Hugging Face hesabın yoksa bu akşam aç</h3>
+      <div class="big">30 gün</div>
+      <p class="small" style="color:var(--fg)">Ücretsiz bir HF Space açmak için hesabın en az 30 günlük olmalı. Bugün açılan hesap 1 Kasım'da uygun olur; o tarihte teslime yalnızca beş gün kalır.</p>
+      <p class="small">Varsayılan yol Streamlit Community Cloud; ona bu şart uygulanmıyor.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Genel Rehber §4 · Ek A</span><span></span></div>
+</section>
+
+<!-- 13 · Mülakat -->
+<section class="slide" data-title="Mülakat">
+  <div class="eyebrow"><b>Portföy</b><span>Sayısı olmayan proje demodur, sayısı olan mühendisliktir</span></div>
+  <h2>Mülakatta 60 saniyede anlat.</h2>
+  <div class="grid2 fill">
+    <div class="pitch">
+      <div><span class="s">Problem</span><span>Kim, hangi işi, ne kadar sürede yapıyor?</span></div>
+      <div><span class="s">Çözüm</span><span>Hangi agent'lar, hangi tool'lar, nasıl bir akış?</span></div>
+      <div><span class="s">Sayı</span><span>Baseline'a göre iyileşme, aynı golden set üzerinde</span></div>
+      <div><span class="s">Trade-off</span><span>"X'i denedim, Y yüzünden Z'ye geçtim."</span></div>
+      <div><span class="s">Sınırlama</span><span>Sistem hâlâ neyi yapamıyor, sırada ne var?</span></div>
+    </div>
+    <div class="flow" style="gap:14px">
+      <h3>Hazır tutacağın üç sayı</h3>
+      <div class="card" style="--acc:var(--fin);border-left:3px solid var(--fin)"><span class="mono acc" style="font-size:13px">KALİTE</span><p style="margin-top:6px">Baseline → final farkı (ör. sayısal doğruluk, SQL eşleşmesi, P@10)</p></div>
+      <div class="card" style="--acc:var(--shop);border-left:3px solid var(--shop)"><span class="mono acc" style="font-size:13px">GÜVENLİK</span><p style="margin-top:6px">Engellenen saldırı oranı, yetkisiz erişim testi</p></div>
+      <div class="card" style="--acc:var(--trial);border-left:3px solid var(--trial)"><span class="mono acc" style="font-size:13px">MALİYET</span><p style="margin-top:6px">Görev başına adım, token, saniye ve kuruş</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Genel Rehber §13 · her dokümanın 14. bölümü</span><span></span></div>
+</section>
+
+<!-- 14 · Belgeler ve soru-cevap -->
+<section class="slide" data-title="Belgeler">
+  <div class="eyebrow"><b>Kaynaklar</b><span>Dört PDF ve beceri haritası</span></div>
+  <div class="fill" style="display:flex;flex-direction:column;justify-content:center;gap:24px">
+    <h1 style="font-size:62px">Sorular ve sonraki adım</h1>
+    <div class="grid2" style="max-width:1050px">
+      <a class="card resource-link" style="--acc:var(--gen)" href="../00_Final_Proje_Genel_Rehber.pdf"><h3>Genel Rehber</h3><p class="small" style="margin-top:6px">Ortak kurallar, takvim, rubrik</p></a>
+      <a class="card resource-link" style="--acc:var(--fin)" href="../01_FinSight_Finans.pdf"><h3>FinSight</h3><p class="small" style="margin-top:6px">Finans · SEC EDGAR</p></a>
+      <a class="card resource-link" style="--acc:var(--shop)" href="../02_ShopOps_Eticaret.pdf"><h3>ShopOps</h3><p class="small" style="margin-top:6px">E-ticaret · Olist</p></a>
+      <a class="card resource-link" style="--acc:var(--trial)" href="../03_TrialMatch_Saglik.pdf"><h3>TrialMatch</h3><p class="small" style="margin-top:6px">Sağlık · ClinicalTrials.gov</p></a>
+    </div>
+    <p class="small" style="max-width:1050px"><a class="text-link" href="../Beceri_Haritasi.html">Beceri haritasını aç</a> · Topluluğu tanımak için <a class="text-link" href="https://www.turkiyeveritoplulugu.com/" target="_blank" rel="noopener noreferrer">TVT sitesini aç</a>. Proje teslim formunu ve TVT yazı gönderim yolunu organizasyon ayrıca duyuracak.</p>
+  </div>
+  <div class="foot"><span>Teslim 6 Kasım 2026 · Sonuçlar 1 Aralık'a kadar</span><span>Türkiye Veri Topluluğu × MultiGroup</span></div>
+</section>
+
+</div>
+</div>
+
+<nav id="ctrl" aria-label="Sunum kontrolleri">
+  <button id="prev" type="button" aria-label="Önceki slayt">←</button>
+  <span id="count" aria-live="polite">1 / 14</span>
+  <button id="next" type="button" aria-label="Sonraki slayt">→</button>
+  <button id="fs" type="button">Tam ekran</button>
+</nav>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var stage=document.getElementById('stage');
+  var root=document.documentElement;
+  var i=0;
+  function fromHash(){var m=/^#(\d+)$/.exec(location.hash);if(m){var n=parseInt(m[1],10)-1;if(n>=0&&n<slides.length)return n;}return 0;}
+  function show(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){s.classList.toggle('on',k===i);s.setAttribute('aria-hidden',k===i||root.classList.contains('flow')?'false':'true');});
+    document.getElementById('count').textContent=(i+1)+' / '+slides.length;
+    document.getElementById('prog').style.width=((i+1)/slides.length*100)+'%';
+    try{history.replaceState(null,'','#'+(i+1));}catch(e){}
+  }
+  function fit(){
+    var w=window.innerWidth,h=window.innerHeight;
+    var flow=w<760;
+    root.classList.toggle('flow',flow);
+    stage.style.transform=flow?'':'scale('+Math.min(w/1280,h/720)+')';
+  }
+  document.addEventListener('keydown',function(e){
+    if(root.classList.contains('flow'))return;
+    var k=e.key;
+    if(k==='ArrowRight'||k==='PageDown'||k===' '){e.preventDefault();show(i+1);}
+    else if(k==='ArrowLeft'||k==='PageUp'){e.preventDefault();show(i-1);}
+    else if(k==='Home'){show(0);}else if(k==='End'){show(slides.length-1);}
+  });
+  document.getElementById('prev').addEventListener('click',function(){show(i-1);});
+  document.getElementById('next').addEventListener('click',function(){show(i+1);});
+  document.getElementById('viewport').addEventListener('click',function(e){
+    if(root.classList.contains('flow')||e.target.closest('a,button'))return;
+    show(e.clientX>window.innerWidth/2?i+1:i-1);
+  });
+  document.getElementById('fs').addEventListener('click',function(){
+    var b=this;
+    try{
+      if(!document.fullscreenElement){var p=root.requestFullscreen&&root.requestFullscreen();if(p&&p.catch)p.catch(function(){b.hidden=true;});}
+      else{document.exitFullscreen();}
+    }catch(e){b.hidden=true;}
+  });
+  window.addEventListener('resize',fit);
+  window.addEventListener('hashchange',function(){show(fromHash());});
+  fit();show(fromHash());
+})();
+</script>

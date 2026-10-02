@@ -1,0 +1,136 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AI Agents Bootcamp — Beceri Haritası</title><style>
+:root{color-scheme:light;--ink:#172033;--muted:#526078;--violet:#4338ca;--line:#dce3ed;--wash:#f7f8fc}
+*{box-sizing:border-box}body{margin:0;background:#e9edf5;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.58}
+.page{max-width:1050px;margin:40px auto;background:#fff;padding:64px 72px;box-shadow:0 14px 48px #1b25501c}
+h1{font-size:2.5rem;line-height:1.15;letter-spacing:-.035em;margin:0 0 28px;border-top:9px solid var(--violet);padding-top:25px}
+h2{font-size:1.35rem;line-height:1.25;color:var(--violet);margin:40px 0 14px}
+p{margin:0 0 16px;max-width:78ch}strong{font-weight:700}a{color:var(--violet);text-underline-offset:3px}a:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}
+table{width:100%;border-collapse:collapse;margin:24px 0 34px;font-size:.91rem;line-height:1.42}th{text-align:left;background:var(--violet);color:#fff;padding:12px 10px;vertical-align:top}td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:top}tbody tr:nth-child(even){background:var(--wash)}td:first-child{font-weight:650;width:19%}td:nth-child(2){width:27%}td:nth-child(3){width:37%}td:nth-child(4){width:17%}
+ul,ol{padding-left:1.4em;max-width:90ch}li{margin:.35em 0}code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;background:#f1f3f8;padding:.1em .25em;border-radius:3px}
+@media(max-width:800px){body{background:#fff}.page{margin:0;padding:28px 18px;box-shadow:none}h1{font-size:2rem}table{display:block;overflow-x:auto;white-space:normal;min-width:100%}th,td{min-width:130px}}
+@media print{body{background:#fff}.page{max-width:none;margin:0;padding:0;box-shadow:none}h1{font-size:24pt}h2{font-size:14pt;break-after:avoid}table{font-size:9pt}tr{break-inside:avoid}a{color:var(--ink)}}
+</style></head><body><main class="page"><h1 id="ai-agents-bootcamp--beceri-haritası">AI Agents Bootcamp — Beceri
+Haritası</h1>
+<p>Bu harita, 2 Ekim 2026 proje tanıtım oturumunda katılımcının
+<strong>ne yapmayı öğrenmesi</strong>, bunu <strong>hangi proje
+kanıtıyla göstermesi</strong> ve <strong>ne zaman denemesi</strong>
+gerektiğini özetler. Ayrıntılı gereksinimler
+<code>00_Final_Proje_Genel_Rehber.pdf</code> ve seçilen projenin 7.
+bölümündedir. Bu harita yeni bir değerlendirme kuralı veya resmî ders
+başlığı oluşturmaz.</p>
+<table>
+<thead>
+<tr>
+<th>Beceri</th>
+<th>Yapılabilir davranış</th>
+<th>Projedeki kanıt</th>
+<th>Ders / aşama</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Problem seçimi ve ajan gerekçesi</td>
+<td>Kullanıcıyı, işi ve başarım ölçüsünü tanımlar; tek LLM çağrısı veya
+sabit akışla karşılaştırır.</td>
+<td>README'de problem, 10 soru, baseline gerekçesi</td>
+<td>1, 3 · M0</td>
+</tr>
+<tr>
+<td>Tool ve iş kuralı tasarımı</td>
+<td>Tipli girdi/çıktılı tool yazar; yetki ve doğrulamayı tool katmanında
+uygular.</td>
+<td>≥4 özel tool, birim/entegrasyon testleri</td>
+<td>2, 5, 6 · M1</td>
+</tr>
+<tr>
+<td>Ajan döngüsü</td>
+<td>Modelin gözleme göre adım seçmesini sağlar; adım sınırı ve tekrar
+koruması kurar.</td>
+<td>Çalışan CLI/notebook akışı ve adım logu</td>
+<td>3, 4, 5 · M1</td>
+</tr>
+<tr>
+<td>Kaynaklı bilgi kullanımı</td>
+<td>RAG ya da yapılandırılmış sorgudan kanıt getirir; cevapla kaynağı
+eşleştirir.</td>
+<td>Kaynak kimliği/alinti, retrieval veya sorgu testi</td>
+<td>7, 9 · M1–M2</td>
+</tr>
+<tr>
+<td>Orkestrasyon ve MCP</td>
+<td>Uzman rollerin sınırını ve devri gösterir; kendi tool'unu MCP
+üzerinden sunar.</td>
+<td>Hedef seviyede ≥2 uzman + orkestratör, çalışan MCP
+istemci/sunucu</td>
+<td>6, 8 · M2</td>
+</tr>
+<tr>
+<td>Ölçme ve hata analizi</td>
+<td>Aynı golden set üzerinde baseline ve final sistemi karşılaştırır;
+başarısız örnekleri inceler.</td>
+<td>≥25 örnek, metrik tablosu, en az 5 hata analizi (Hedef)</td>
+<td>11 · M1–M3</td>
+</tr>
+<tr>
+<td>Güvenlik ve sorumlu kullanım</td>
+<td>Yetkisiz/veri yazan işlemi durdurur; belirsizliği ve kapsam sınırını
+açıklar.</td>
+<td>Yetki/HITL testleri, injection örnekleri, veri ve sır
+politikası</td>
+<td>12 · M2–M3</td>
+</tr>
+<tr>
+<td>Anlatım ve yeniden üretilebilirlik</td>
+<td>Sistemi başka birinin çalıştırmasını ve sonucu denetlemesini
+sağlar.</td>
+<td>README, eval komutu, mimari çizim, teknik yazı ve demo</td>
+<td>Tüm program · M3</td>
+</tr>
+</tbody>
+</table>
+<h2 id="üç-projede-becerilerin-görünümü">Üç projede becerilerin
+görünümü</h2>
+<ul>
+<li><strong>FinSight:</strong> kaynaklı finansal bilgi, deterministik
+hesap, sayısal doğrulama ve critic döngüsü öne çıkar.</li>
+<li><strong>ShopOps:</strong> yetkilendirilmiş tool çağrısı, yazma
+aksiyonunda insan onayı, tanımlı metriklerle güvenli SQL öne çıkar.</li>
+<li><strong>TrialMatch:</strong> sentetik hasta verisi, kriter alıntısı,
+belirsizlik bildirimi ve hekim karar sınırı öne çıkar.</li>
+</ul>
+<h2 id="ders-başlığı-ve-agent-skill-ayrımı">Ders başlığı ve “agent
+skill” ayrımı</h2>
+<p>Müfredat çalışma dosyasında 7. dersin mevcut konu başlığı <strong>RAG
+ve LlamaIndex</strong>, 9. dersinki <strong>Agentic RAG ve Gelişmiş
+RAG</strong> olarak yer alır. Aynı dosyanın “Yeni Konu Başlığı”
+sütununda 7. ders için KG, ontoloji ve <em>skill generation &amp;
+usage</em>; 9. ders için Data Agent ve Semantic Model önerileri vardır.
+Bunlar öneridir. Belgelerdeki proje kapsamı bu önerilerin kesinleşmesine
+bağlı değildir.</p>
+<p>Buradaki <strong>katılımcı becerisi</strong>, yukarıdaki davranış ve
+kanıttır. Bir <strong>agent skill</strong> ise tekrar kullanılabilir
+görev talimatı veya uzmanlık paketidir. Katılımcı, projesi için örneğin
+“SEC 10-K bölümünü kaynakla özetle”, “iade politikasını doğrula” ya da
+“klinik kriter alıntısını denetle” gibi dar kapsamlı bir skill
+tasarlayabilir. Böyle bir skill, veri sorgulayan tool'un, erişim
+kontrolünün veya ölçümün yerini almaz; mevcut rubrikte ayrı bir zorunlu
+madde değildir. Kullanılırsa girdisi, çıktısı, izin verdiği araçlar ve
+başarısızlık durumları README'de açıklanmalı; golden set üzerinde skill
+açık/kapalı karşılaştırması yapılmalıdır.</p>
+<h2 id="tanıtım-oturumunda-kullanım">Tanıtım oturumunda kullanım</h2>
+<ol type="1">
+<li>Katılımcı üç projeden birini ve seçim gerekçesini bir cümleyle
+söyler.</li>
+<li>M0 için ilk somut çıktıyı seçer: repo, 10 örnek soru ve veri
+erişimi.</li>
+<li>Seçtiği projede en zor iki beceriyi işaretler; bunlar için ilk
+testini yazar.</li>
+<li>Çıkış sorusu: “Bu sistemde hangi karar modelde, hangi karar tool/kod
+katmanında ve bunu nasıl ölçeceğim?”</li>
+</ol>
+<p><strong>TVT adresi:</strong> <a
+href="https://www.turkiyeveritoplulugu.com/">turkiyeveritoplulugu.com</a>
+topluluk sitesidir. Proje teslim ve TVT yazı gönderim yolları ayrıca
+duyurulacaktır; bu belge herhangi bir form veya editör bağlantısını
+doğrulamaz.</p>
+</main></body></html>
