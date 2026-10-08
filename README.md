@@ -13,6 +13,12 @@ LLM'lerin ötesine geçerek, bu modelleri araçlar ve bilgi kaynaklarıyla bir a
 ## 🎓 Kimler Katılmalı?
 
 Bu bootcamp, AI Agents alanına ilgi duyan ve kendini bu alanda geliştirmek isteyen herkes için tasarlandı!
+## 📤 Proje Teslim
+
+Proje detaylarına ve teslim gereksinimlerine [Projects](https://github.com/multigroupco/AI-Agents-Bootcamp/tree/main/Projects) klasöründen ulaşabilirsiniz. 
+Projenizi teslim etmek için [Proje Teslim Formu](https://gathin.com/forms/36194640359308307227) bağlantısını kullanabilirsiniz.
+
+**Son Teslim Tarihi:** 6 Kasım 2026
 
 ## 📚 İçerik
 
