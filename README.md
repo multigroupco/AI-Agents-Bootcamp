@@ -30,7 +30,6 @@ Projenizi teslim etmek için [Proje Teslim Formu](https://gathin.com/forms/36194
 * Multi-Agent Systems
 * Uygulamalı Proje
 
-Ders slaytları, teknik mimari diyagramları ve görsel materyallere [Resources/Shared/](Resources/Shared/) dizini üzerinden erişebilirsiniz.
 
 ## ▶️ [Oturumlar](https://youtube.com/playlist?list=PLUkHeRXZSx7I&si=jRXwenax2f54760Y)
 
